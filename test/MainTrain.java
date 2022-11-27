@@ -78,7 +78,7 @@ public class MainTrain {
 		Word horn=new Word(get("HORN"), 7, 5, false);
 		if(b.tryPlaceWord(horn)!=14)
 			System.out.println("problem in placeWord for 1st word (-10)");
-
+		b.print();
 		Word farm=new Word(get("FA_M"), 5, 7, true);
 		if(b.tryPlaceWord(farm)!=9)
 			System.out.println("problem in placeWord for 2ed word (-10)");

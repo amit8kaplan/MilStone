@@ -378,7 +378,7 @@ public class Board {
         int sum = 0;
         if (w.isVertical()) {
             for (int row = 0; row < w.getTiles().length; row++) {
-                Pi = this.PiBoard[row][w.getCol()];
+                Pi = this.PiBoard[row+w.getRow()][w.getCol()];
                 if (Pi == 2 || Pi == 3)
                     sum += (w.getTiles()[row].getScore() * Pi);
                 else
@@ -391,7 +391,7 @@ public class Board {
             sum *= sumPiToWord;
         } else {
             for (int col = 0; col < w.getTiles().length; col++) {
-                Pi = this.PiBoard[w.getRow()][col];
+                Pi = this.PiBoard[w.getRow()][col+w.getCol()];
                 if (Pi == 2 || Pi == 3)
                     sum += (w.getTiles()[col].getScore() * Pi);
                 else
@@ -429,7 +429,28 @@ public class Board {
 //    }
     public int tryPlaceWord(Word word){
         int sum =0;
-        if (!boardLegal(word))
+        Word wWithOutNull = word;
+        if (word.isVertical())
+        {
+            for(int i=0; i<wWithOutNull.getTiles().length;i++)
+            {
+                if(wWithOutNull.getTiles()[i]==null && this.boardGame[i+wWithOutNull.getRow()][wWithOutNull.getCol()]==null)
+                    return 0;
+                else if (wWithOutNull.getTiles()[i]==null && this.boardGame[i+wWithOutNull.getRow()][wWithOutNull.getCol()]!=null)
+                    wWithOutNull.getTiles()[i]=this.boardGame[i+wWithOutNull.getRow()][wWithOutNull.getCol()];
+            }
+        }
+       else
+        {
+            for(int i=0; i<wWithOutNull.getTiles().length;i++)
+            {
+                if(wWithOutNull.getTiles()[i]==null && this.boardGame[wWithOutNull.getRow()][i+wWithOutNull.getCol()]==null)
+                    return 0;
+                else if (wWithOutNull.getTiles()[i]==null && this.boardGame[wWithOutNull.getRow()][i+wWithOutNull.getCol()]!=null)
+                    wWithOutNull.getTiles()[i]=this.boardGame[wWithOutNull.getRow()][i+wWithOutNull.getCol()];
+            }
+        }
+        if (!boardLegal(wWithOutNull))
             return 0;
         if (tileOnBoard+word.getTiles().length>98)
             return 0;
@@ -447,16 +468,25 @@ public class Board {
     public void insertWord(Word w){
         if (w.isVertical())
         {
-            for(int i=w.getRow();i<w.getTiles().length;i++ )
+            for(int i=w.getRow();i<w.getTiles().length+w.getRow()-1;i++ )
                 if (this.boardGame[i][w.getCol()]==null)
                     this.boardGame[i][w.getCol()]=w.getTiles()[i];
         }
         else{
-            for(int i=w.getCol(); i<w.getTiles().length; i++)
+            for(int i=w.getCol(); i<w.getTiles().length+w.getCol()-1; i++)
                 if (this.boardGame[w.getRow()][i]==null)
                     this.boardGame[w.getRow()][i]=w.getTiles()[i];
         }
         tileOnBoard+=w.getTiles().length;
+    }
+
+    public void print(){
+        for (int row=0; row<15; row++)
+        {
+            for(int col=0; col<15; col++)
+                System.out.print(this.boardGame[row][col]);
+            System.out.println();
+        }
     }
 
 }

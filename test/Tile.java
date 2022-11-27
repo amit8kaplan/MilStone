@@ -10,7 +10,7 @@ public class Tile {
     //todo: generate ctor with valid to letter
     public static class Bag{
         int[] LettersGame;
-        Tile[] arrayTile;
+        public Tile[] arrayTile;
 
 
         private static Bag _intance = null;

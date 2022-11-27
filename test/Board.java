@@ -72,8 +72,10 @@ public class Board {
             return false;
         if (on>7)
             return false;
-        if ((on-7)<0 && (Wlength-7)<0)
+        if (on+Wlength-1<7)
             return false;
+//        if ((on-7)<0 && (Wlength-7)<0)
+//            return false;
         return true;
     }
     //helps me to know if the word based on other tile and if tile in word is override other tile
@@ -370,27 +372,66 @@ public class Board {
         return myWords;
     }
 
-    public int getScore(Word w){
-        int sumPiToWord=0;
+    public int getScore(Word w) {
+        int sumPiToWord = 0;
         int Pi;
-        int sum =0;
-        //sum the word
-        for(Tile t : w.getTiles())
-        {
-            Pi=this.PiBoard[w.getRow()][w.getCol()];
-            if (Pi==2 || Pi==3)
-                sum+=(t.getScore()*Pi);
-            else if (Pi==1 || Pi==4 || Pi==5)
-                sumPiToWord+=Pi;
-            else
-                sum+=t.getScore();
+        int sum = 0;
+        if (w.isVertical()) {
+            for (int row = 0; row < w.getTiles().length; row++) {
+                Pi = this.PiBoard[row][w.getCol()];
+                if (Pi == 2 || Pi == 3)
+                    sum += (w.getTiles()[row].getScore() * Pi);
+                else
+                    sum += w.getTiles()[row].getScore();
+                if (Pi == 1 || Pi == 4)
+                    sumPiToWord += 2;
+                if (Pi == 5)
+                    sumPiToWord += 3;
+            }
+            sum *= sumPiToWord;
+        } else {
+            for (int col = 0; col < w.getTiles().length; col++) {
+                Pi = this.PiBoard[w.getRow()][col];
+                if (Pi == 2 || Pi == 3)
+                    sum += (w.getTiles()[col].getScore() * Pi);
+                else
+                    sum += w.getTiles()[col].getScore();
+                if (Pi == 1 || Pi == 4)
+                    sumPiToWord += 2;
+                if (Pi == 5)
+                    sumPiToWord += 3;
+            }
+            sum *= sumPiToWord;
         }
-        sum*=sumPiToWord;
+
         return sum;
+
     }
+
+        //sum the word
+
+
+
+//        for (int i=0)
+//        {
+//            Pi=this.PiBoard[w.getRow()][w.getCol()];
+//            if (Pi==2 || Pi==3)
+//                sum+=(t.getScore()*Pi);
+//            else if (Pi==1 || Pi==4)
+//                sumPiToWord+=2;
+//            else if (Pi==5)
+//                sumPiToWord+=3;
+//            else
+//                sum+=t.getScore();
+//        }
+//        sum*=sumPiToWord;
+//        return sum;
+//    }
     public int tryPlaceWord(Word word){
         int sum =0;
         if (!boardLegal(word))
+            return 0;
+        if (tileOnBoard+word.getTiles().length>98)
             return 0;
         ArrayList<Word> words = new ArrayList<>();
         words = getWords(word);
@@ -399,10 +440,24 @@ public class Board {
                 return 0;
             sum+=getScore(w);
         }
-
+        insertWord(word);
         return sum;
     }
-    
+
+    public void insertWord(Word w){
+        if (w.isVertical())
+        {
+            for(int i=w.getRow();i<w.getTiles().length;i++ )
+                if (this.boardGame[i][w.getCol()]==null)
+                    this.boardGame[i][w.getCol()]=w.getTiles()[i];
+        }
+        else{
+            for(int i=w.getCol(); i<w.getTiles().length; i++)
+                if (this.boardGame[w.getRow()][i]==null)
+                    this.boardGame[w.getRow()][i]=w.getTiles()[i];
+        }
+        tileOnBoard+=w.getTiles().length;
+    }
 
 }
 

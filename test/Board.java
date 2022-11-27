@@ -388,6 +388,20 @@ public class Board {
         sum*=sumPiToWord;
         return sum;
     }
+    public int tryPlaceWord(Word word){
+        int sum =0;
+        if (!boardLegal(word))
+            return 0;
+        ArrayList<Word> words = new ArrayList<>();
+        words = getWords(word);
+        for (Word w: words){
+            if (!dictionaryLegal(w))
+                return 0;
+            sum+=getScore(w);
+        }
+
+        return sum;
+    }
     
 
 }

@@ -20,14 +20,27 @@ public class Board {
     public Tile[][] boardGame;
     public Boolean[][] boardGameBoolean;
     public ArrayList<Word> allWords;
-    private int[][] PiBoard = new int[15][15];
+    private int[][] PiBoard = {{5,0,0,2,0,0,0,5,0,0,0,2,0,0,5},
+                                {0,4,0,0,0,3,0,0,0,3,0,0,0,4,0},
+                                {0,0,4,0,0,0,2,0,2,0,0,0,4,0,0},
+                                {2,0,0,4,0,0,0,2,0,0,0,4,0,0,2},
+                                {0,0,0,0,4,0,0,0,0,0,4,0,0,0,0},
+                                {0,3,0,0,0,3,0,0,0,3,0,0,0,3,0},
+                                {0,0,2,0,0,0,2,0,2,0,0,0,2,0,0},
+                                {5,0,0,2,0,0,0,1,0,0,0,2,0,0,5},
+                                {0,0,2,0,0,0,2,0,2,0,0,0,2,0,0},
+                                {0,3,0,0,0,3,0,0,0,3,0,0,0,3,0},
+                                {0,0,0,0,4,0,0,0,0,0,4,0,0,0,0},
+                                {2,0,0,4,0,0,0,2,0,0,0,4,0,0,2},
+                                {0,0,4,0,0,0,2,0,2,0,0,0,4,0,0},
+                                {0,4,0,0,0,3,0,0,0,3,0,0,0,4,0},
+                                {5,0,0,2,0,0,0,5,0,0,0,2,0,0,5}
+    };
 
     private Board(){
         this.boardGame = new Tile[15][15];
         this.boardGameBoolean= new Boolean[15][15];
         this.allWords = new ArrayList<Word>();
-        PiBoard={[3,0,0,2,0,0,0,3,0,0,0,2,0,0,3],
-        };
 
     }
     private Board(Tile[][] boardGame, Boolean[][] boardGameBoolean, ArrayList<Word> allWords) {
@@ -356,16 +369,26 @@ public class Board {
         }
         return myWords;
     }
-    public boolean checkIfPi2(row)
+
     public int getScore(Word w){
+        int sumPiToWord=0;
+        int Pi;
         int sum =0;
         //sum the word
-        for(t:w.getTiles())
+        for(Tile t : w.getTiles())
         {
-            sum+=
+            Pi=this.PiBoard[w.getRow()][w.getCol()];
+            if (Pi==2 || Pi==3)
+                sum+=(t.getScore()*Pi);
+            else if (Pi==1 || Pi==4 || Pi==5)
+                sumPiToWord+=Pi;
+            else
+                sum+=t.getScore();
         }
+        sum*=sumPiToWord;
         return sum;
     }
+    
 
 }
 

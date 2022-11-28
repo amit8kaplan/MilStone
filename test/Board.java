@@ -16,7 +16,7 @@ public class Board {
         return _instanceBoard;
     }
 
-    private Tile.Bag bag;
+    private Tile.Bag bag = Tile.Bag.getBag();
     static int tileOnBoard =0;
     public Tile[][] boardGame;
     public int[][]hashBoard;
@@ -91,8 +91,8 @@ public class Board {
 //        if (checkIfTileExist)
 //            return true;
 //        return false;
-        for(int i=index; i<w.getTiles().length;i++){
-            if(w.getTiles()[i].hashCode()==this.hashBoard[index][i])
+        for(int i=index; i<w.getTiles().length+index;i++){
+            if(w.getTiles()[i-index].hashCode()==this.hashBoard[i][w.getCol()])
                 checkIfTileExist =true;
             else if(this.hashBoard[index][i] != 0)
                 return false;
@@ -172,7 +172,8 @@ public class Board {
         }
         else {
             for (int i = 0; i <length; i++) {
-                if (this.hashBoard[i][side - 1] != 0 || this.hashBoard[i][side + 1] != 0)
+                if (this.hashBoard[i+first][side - 1] != 0 || this.hashBoard[i+first][side + 1] != 0)
+
                     return true;
             }
         }
@@ -322,14 +323,14 @@ public class Board {
                 indexEnd=1;
 //                if (this.boardGame[i][w.getCol()]==null) {
                 if (this.hashBoard[i][w.getCol()]==0) {
-                    while ((w.getCol()-indexStart)>=0 || untilTheEndOfTheRowStart) {
+                    while ((w.getCol()-indexStart)>=0 && untilTheEndOfTheRowStart) {
 //                        if (this.boardGame[i][w.getCol()-indexStart] ==null)
                         if (this.hashBoard[i][w.getCol()-indexStart] ==0)
                             untilTheEndOfTheRowStart=false;
                         else
                             indexStart++;
                     }
-                    while ((w.getCol()+indexEnd)<=14 || untilTheEndOfTheRowEnd) {
+                    while ((w.getCol()+indexEnd)<=14 && untilTheEndOfTheRowEnd) {
 //                        if (this.boardGame[i][w.getCol()+indexEnd] ==null)
                         if (this.hashBoard[i][w.getCol()+indexEnd] ==0)
                             untilTheEndOfTheRowEnd=false;
@@ -356,7 +357,7 @@ public class Board {
             untilTheEndOfTheColEnd=true;
             indexUp=0;
             indexDown=0;
-            while ((w.getRow()-indexUp-1)>=0 || untilTheEndOfTheColStart)
+            while ((w.getRow()-indexUp-1)>=0 && untilTheEndOfTheColStart)
             {
 //                if (this.boardGame[w.getRow()-indexUp-1][w.getCol()] ==null)
                 if (this.hashBoard[w.getRow()-indexUp-1][w.getCol()] ==0)
@@ -364,7 +365,7 @@ public class Board {
                 else
                     indexUp++;
             }
-            while ((w.getTiles().length+w.getRow()+indexDown-1)<=14 || untilTheEndOfTheColEnd)
+            while ((w.getTiles().length+w.getRow()+indexDown-1)<=14 && untilTheEndOfTheColEnd)
             {
 //                if (this.boardGame[w.getTiles().length+w.getRow()+indexDown-1][w.getCol()] ==null)
                 if (this.hashBoard[w.getTiles().length+w.getRow()+indexDown-1][w.getCol()] ==0)
@@ -391,14 +392,14 @@ public class Board {
                 indexEnd=1;
 //                if (this.boardGame[w.getRow()][i]==null) {
                 if (this.hashBoard[w.getRow()][i]==0) {
-                    while ((w.getRow()-indexStart)>=0 || untilTheEndOfTheRowStart) {
+                    while ((w.getRow()-indexStart)>=0 && untilTheEndOfTheRowStart) {
 //                        if (this.boardGame[w.getRow()-indexStart][i] ==null)
                         if (this.hashBoard[w.getRow()-indexStart][i] ==0)
                             untilTheEndOfTheRowStart=false;
                         else
                             indexStart++;
                     }
-                    while ((w.getRow()+indexEnd)<=14 || untilTheEndOfTheRowEnd) {
+                    while ((w.getRow()+indexEnd)<=14 && untilTheEndOfTheRowEnd) {
 //                        if (this.boardGame[w.getRow()+indexEnd][i] ==null)
                         if (this.hashBoard[w.getRow()+indexEnd][i] ==0)
                             untilTheEndOfTheRowEnd=false;
@@ -426,7 +427,7 @@ public class Board {
             untilTheEndOfTheColEnd=true;
             indexUp=0;
             indexDown=0;
-            while ((w.getCol()-indexUp-1)>=0 || untilTheEndOfTheColStart)
+            while ((w.getCol()-indexUp-1)>=0 && untilTheEndOfTheColStart)
             {
 //                if (this.boardGame[w.getRow()][w.getCol()-indexUp-1] ==null)
                 if (this.hashBoard[w.getRow()][w.getCol()-indexUp-1] ==0)
@@ -434,7 +435,7 @@ public class Board {
                 else
                     indexUp++;
             }
-            while ((w.getTiles().length+w.getCol()+indexDown-1)<=14 || untilTheEndOfTheColEnd)
+            while ((w.getTiles().length+w.getCol()+indexDown-1)<=14 && untilTheEndOfTheColEnd)
             {
 //                if (this.boardGame[w.getRow()][w.getTiles().length+w.getCol()+indexDown-1] ==null)
                 if (this.hashBoard[w.getRow()][w.getTiles().length+w.getCol()+indexDown-1] ==0)
@@ -468,15 +469,17 @@ public class Board {
                     sum += (w.getTiles()[row].getScore() * Pi);
                 else
                     sum += w.getTiles()[row].getScore();
-                if (Pi == 1 || Pi == 4)
+                if ( Pi == 4)
                     sumPiToWord += 2;
+                if (Pi==1 && tileOnBoard==0)
+                    sumPiToWord+=2;
                 if (Pi == 5)
                     sumPiToWord += 3;
             }
-            sum *= sumPiToWord;
+
         } else {
             for (int col = 0; col < w.getTiles().length; col++) {
-                Pi = this.PiBoard[w.getRow()][col+w.getCol()];
+                Pi = this.PiBoard[w.getRow()][col + w.getCol()];
                 if (Pi == 2 || Pi == 3)
                     sum += (w.getTiles()[col].getScore() * Pi);
                 else
@@ -486,8 +489,10 @@ public class Board {
                 if (Pi == 5)
                     sumPiToWord += 3;
             }
-            sum *= sumPiToWord;
         }
+            if (sumPiToWord!=0)
+                sum *= sumPiToWord;
+
 
         return sum;
 
@@ -531,6 +536,7 @@ public class Board {
                     for (int k=0; k<25; k++)
                         if(bag.arrayTile[k].hashCode()==this.hashBoard[i+wWithOutNull.getRow()][wWithOutNull.getCol()])
                             wWithOutNull.getTiles()[i]=bag.arrayTile[k];
+
                 }
             }
         }
@@ -576,7 +582,7 @@ public class Board {
 //                    this.boardGame[i][w.getCol()]=w.getTiles()[i];
             for(int i=w.getRow();i<w.getTiles().length+w.getRow()-1;i++ )
                 if (this.hashBoard[i][w.getCol()]==0)
-                    this.hashBoard[i][w.getCol()]=w.getTiles()[i].hashCode();
+                    this.hashBoard[i][w.getCol()]=w.getTiles()[i-w.getRow()].hashCode();
         }
         else{
 //            for(int i=w.getCol(); i<w.getTiles().length+w.getCol()-1; i++)
@@ -584,7 +590,7 @@ public class Board {
 //                    this.boardGame[w.getRow()][i]=w.getTiles()[i];
             for(int i=w.getCol(); i<w.getTiles().length+w.getCol()-1; i++)
                 if (this.hashBoard[w.getRow()][i]==0)
-                    this.hashBoard[w.getRow()][i]=w.getTiles()[i].hashCode();
+                    this.hashBoard[w.getRow()][i]=w.getTiles()[i-w.getCol()].hashCode();
         }
         tileOnBoard+=w.getTiles().length;
     }

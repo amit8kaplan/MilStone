@@ -81,7 +81,7 @@ public class Board {
     public boolean CheckIfWordIsLegelInerstOn(int index, Word w)
     {
         //checkIfTileExist - if true: there is equal tile there
-        boolean checkIfTileExist = false;
+        boolean checkIfTileExist = true;
 //        for (int i=index; i<w.getTiles().length; i++) {
 //            if (w.getTiles()[i].equals(this.boardGame[index][i]))
 //                checkIfTileExist = true;
@@ -93,13 +93,13 @@ public class Board {
 //        return false;
         for(int i=index; i<w.getTiles().length+index;i++){
             if(w.getTiles()[i-index].hashCode()==this.hashBoard[i][w.getCol()])
-                checkIfTileExist =true;
-            else if(this.hashBoard[index][i] != 0)
+                checkIfTileExist =false;
+            else if(this.hashBoard[w.getRow()][i] != 0)
                 return false;
         }
-        if (checkIfTileExist)
-            return true;
-        return false;
+        if (!checkIfTileExist)
+            return false;
+        return true;
     }
     public boolean CheckIfWordLegalsAroundhorizon(int side, int first, int length)
     {

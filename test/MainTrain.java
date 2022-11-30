@@ -103,6 +103,14 @@ public class MainTrain {
 			System.out.println("problem in placeWord for 6th word (-15)");
 		System.out.println("6oKEY");
 
+		Word AAAA=new Word(get("AAAA"), 0, 1, true);
+		if(b.tryPlaceWord(AAAA)==0)
+			System.out.println("7oKEY");
+
+		Word AAAAAA=new Word(get("AAAAAA"), 0, 6, true);
+		if(b.tryPlaceWord(AAAAAA)==0)
+			System.out.println("8oKEY");
+
 	}
 
 	public static void main(String[] args) {

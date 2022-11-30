@@ -61,7 +61,7 @@ public class Board {
         return getBoardGame();
     }
     public boolean cheackIfFirstPositionIsOut (int row, int col){
-        if (col<0 || row>14||row<0 || row>14)
+        if (col<0 || row>14||row<0 || col>14)
             return false;
         return true;
     }
@@ -78,7 +78,30 @@ public class Board {
     //helps me to know if the word based on other tile and if tile in word is override other tile
     //return true if the word is valid
     //return false if isnt
-    public boolean CheckIfWordIsLegelInerstOn(int index, Word w)
+    public boolean CheckIfWordIsLegelInerstOnHorzion(int index, Word w)
+    {
+        //checkIfTileExist - if true: there is equal tile there
+        boolean checkIfTileExist = true;
+//        for (int i=index; i<w.getTiles().length; i++) {
+//            if (w.getTiles()[i].equals(this.boardGame[index][i]))
+//                checkIfTileExist = true;
+//            else if (this.boardGame[index][i] != null)
+//                return false;
+//        }
+//        if (checkIfTileExist)
+//            return true;
+//        return false;
+        for(int i=index; i<w.getTiles().length+index;i++){
+            if(w.getTiles()[i-index].hashCode()==this.hashBoard[w.getRow()][i])
+                checkIfTileExist =true;
+            else if(this.hashBoard[w.getRow()][i] != 0)
+                return false;
+        }
+        if (!checkIfTileExist)
+            return false;
+        return true;
+    }
+    public boolean CheckIfWordIsLegelInerstOnVer(int index, Word w)
     {
         //checkIfTileExist - if true: there is equal tile there
         boolean checkIfTileExist = true;
@@ -93,8 +116,8 @@ public class Board {
 //        return false;
         for(int i=index; i<w.getTiles().length+index;i++){
             if(w.getTiles()[i-index].hashCode()==this.hashBoard[i][w.getCol()])
-                checkIfTileExist =false;
-            else if(this.hashBoard[w.getRow()][i] != 0)
+                checkIfTileExist =true;
+            else if(this.hashBoard[i][w.getCol()] != 0)
                 return false;
         }
         if (!checkIfTileExist)
@@ -117,7 +140,7 @@ public class Board {
         }
         else {
             for (int i = 0; i <length; i++) {
-                if (this.hashBoard[side - 1][i] != 0 || this.hashBoard[side+1][i] != 0)
+                if (this.hashBoard[side - 1][i+first] != 0 || this.hashBoard[side+1][i+first] != 0)
                     return true;
             }
         }
@@ -225,7 +248,7 @@ public class Board {
                     return false;
                 return true;
             }
-            if(!CheckIfWordIsLegelInerstOn(w.getRow(), w))
+            if(!CheckIfWordIsLegelInerstOnVer(w.getRow(), w))
                 return false;
             if (!CheckIfWordLegalsAroundVer(w.getCol(), w.getRow(),w.getTiles().length))
                 return false;
@@ -265,7 +288,7 @@ public class Board {
                     return false;
                 return true;
             }
-            if(!CheckIfWordIsLegelInerstOn(w.getCol(), w))
+            if(!CheckIfWordIsLegelInerstOnHorzion(w.getCol(), w))
                 return false;
             if (!CheckIfWordLegalsAroundhorizon(w.getRow(), w.getCol(), w.getTiles().length))
                 return false;
@@ -301,11 +324,12 @@ public class Board {
     }
     public ArrayList<Word> getWords(Word w){
         ArrayList<Word> myWords = new ArrayList<Word>();
-        myWords.add(w);
+
         if (tileOnBoard==0){
+            myWords.add(w);
             return myWords;
         }
-
+        boolean worddontExtend =true;
         Tile[] t;
         boolean untilTheEndOfTheRowStart= true;
         int indexStart;
@@ -337,11 +361,11 @@ public class Board {
                         else
                             indexEnd++;
                     }
-                    if (indexEnd==1)
-                        indexEnd=0;
-                    if (indexStart==1)
-                        indexStart=0;
-                    if (indexEnd+indexStart>0){
+//                    if (indexEnd==1)
+//                        indexEnd=0;
+//                    if (indexStart==1)
+//                        indexStart=0;
+                    if (indexEnd+indexStart>2){
                         t=new Tile[indexStart+indexEnd-1];
                         for(int j=w.getCol()-indexStart+1; j<=w.getCol()+indexEnd-1; j++)
                             //this loop is onlt because hashcode
@@ -353,6 +377,7 @@ public class Board {
                     }
                 }
             }
+            worddontExtend =true;
             untilTheEndOfTheColStart=true;
             untilTheEndOfTheColEnd=true;
             indexUp=0;
@@ -365,7 +390,7 @@ public class Board {
                 else
                     indexUp++;
             }
-            while ((w.getTiles().length+w.getRow()+indexDown-1)<=14 && untilTheEndOfTheColEnd)
+            while ((w.getTiles().length+w.getRow()+indexDown+1)<=14 && untilTheEndOfTheColEnd)
             {
 //                if (this.boardGame[w.getTiles().length+w.getRow()+indexDown-1][w.getCol()] ==null)
                 if (this.hashBoard[w.getTiles().length+w.getRow()+indexDown-1][w.getCol()] ==0)
@@ -375,17 +400,35 @@ public class Board {
             }
             if (indexDown+indexUp>0){
                 t=new Tile[indexUp+w.getTiles().length+indexDown];
-                for(int i=w.getRow()-indexUp; i<w.getTiles().length+indexUp+indexDown; i++)
-                    //this loop is only because hashcode
-                    for (int k=0; k<25; k++)
-                        if(bag.arrayTile[k].hashCode()==this.hashBoard[i][w.getCol()])
-                            t[i]= bag.arrayTile[k];
+                int count =0;
+                for(int i=w.getRow()-indexUp; i<w.getRow(); i++) {//this loop is only because hashcode
+                    for (int k = 0; k < 25; k++)
+                        if (bag.arrayTile[k].hashCode() == this.hashBoard[i][w.getCol()]) {
+                            t[count] = bag.arrayTile[k];
+                            count++;
+                        }
 //                    t[i]=boardGame[i][w.getCol()];
+                }
+                for (int i=0 ;i<w.getTiles().length; i++)
+                {
+                    t[count]=w.getTiles()[i];
+                    count++;
+                }
+                for(int i=w.getRow()+w.getTiles().length; i<w.getTiles().length+w.getRow()+indexDown; i++) {//this loop is only because hashcode
+                    for (int k = 0; k < 25; k++)
+                        if (bag.arrayTile[k].hashCode() == this.hashBoard[i][w.getCol()]) {
+                            t[count] = bag.arrayTile[k];
+                            count++;
+                        }
+//                    t[i]=boardGame[i][w.getCol()];
+                }
                 myWords.add(new Word(t,w.getRow()-indexUp,w.getCol(),true));
+                worddontExtend =false;
             }
         }
         else {
             for (int i=w.getCol(); i<(w.getTiles().length+w.getCol()); i++){
+                worddontExtend =true;
                 untilTheEndOfTheRowStart=true;
                 untilTheEndOfTheRowEnd=true;
                 indexStart=1;
@@ -406,20 +449,32 @@ public class Board {
                         else
                             indexEnd++;
                     }
-                    if (indexEnd==1)
-                        indexEnd=0;
-                    if (indexStart==1)
-                        indexStart=0;
-                    if (indexEnd+indexStart>0){
+//                    if (indexEnd==1)
+//                        indexEnd=0;
+//                    if (indexStart==1)
+//                        indexStart=0;
+                    if (indexEnd+indexStart>2){
                         t=new Tile[indexStart+indexEnd-1];
-                        for(int j=w.getRow()-indexStart+1; j<=w.getRow()+indexEnd-1; j++)
+                        int count =0;
+                        for(int j=w.getRow()-indexStart+1; j<w.getRow(); j++) { //this loop is onlt because hashcode
+                            for (int k = 0; k < 25; k++)
+                                if (bag.arrayTile[k].hashCode() == this.hashBoard[j][i]) {
+                                    t[count] = bag.arrayTile[k];
+                                    count++;
+                                }
+                        }
+                        t[count]= w.getTiles()[i-w.getCol()];
+                        count++;
+                        for(int j=w.getRow()+1; j<=w.getRow()+indexEnd-1; j++)
                             //this loop is onlt because hashcode
                             for (int k=0; k<25; k++)
-                                if(bag.arrayTile[k].hashCode()==this.hashBoard[i][j])
-                                    t[j]= bag.arrayTile[k];
-
+                                if(bag.arrayTile[k].hashCode()==this.hashBoard[j][i]) {
+                                    t[count] = bag.arrayTile[k];
+                                    count++;
+                                }
 //                            t[j]= boardGame[i][j];
-                        myWords.add(new Word(t,i,w.getRow()-indexStart+1, true));
+                        myWords.add(new Word(t,w.getRow()-indexStart+1,i, true));
+
                     }
                 }
             }
@@ -444,17 +499,26 @@ public class Board {
                     indexDown++;
             }
             if (indexDown+indexUp>0){
+                int count=0;
                 t=new Tile[indexUp+w.getTiles().length+indexDown];
-                for(int i=w.getCol()-indexUp; i<w.getTiles().length+indexUp+indexDown; i++)
+                for(int i=w.getCol()-indexUp; i<w.getTiles().length+w.getCol()+indexDown; i++)
                     //this loop is only because hashcode
+                {
                     for (int k=0; k<25; k++)
-                        if(bag.arrayTile[k].hashCode()==this.hashBoard[w.getRow()][i])
-                            t[i]= bag.arrayTile[k];
+                        if(bag.arrayTile[k].hashCode()==this.hashBoard[w.getRow()][i]) {
+                            t[count] = bag.arrayTile[k];
+                            count++;
+                        }
+
+                }
 //                    t[i]=boardGame[w.getRow()][i];
                 myWords.add(new Word(t,w.getRow()-indexUp,w.getCol(),false));
+                worddontExtend =false;
             }
 
         }
+        if (worddontExtend)
+            myWords.add(w);
         return myWords;
     }
 
@@ -580,7 +644,7 @@ public class Board {
 //            for(int i=w.getRow();i<w.getTiles().length+w.getRow()-1;i++ )
 //                if (this.boardGame[i][w.getCol()]==null)
 //                    this.boardGame[i][w.getCol()]=w.getTiles()[i];
-            for(int i=w.getRow();i<w.getTiles().length+w.getRow()-1;i++ )
+            for(int i=w.getRow();i<=w.getTiles().length+w.getRow()-1;i++ )
                 if (this.hashBoard[i][w.getCol()]==0)
                     this.hashBoard[i][w.getCol()]=w.getTiles()[i-w.getRow()].hashCode();
         }
@@ -588,7 +652,7 @@ public class Board {
 //            for(int i=w.getCol(); i<w.getTiles().length+w.getCol()-1; i++)
 //                if (this.boardGame[w.getRow()][i]==null)
 //                    this.boardGame[w.getRow()][i]=w.getTiles()[i];
-            for(int i=w.getCol(); i<w.getTiles().length+w.getCol()-1; i++)
+            for(int i=w.getCol(); i<=w.getTiles().length+w.getCol()-1; i++)
                 if (this.hashBoard[w.getRow()][i]==0)
                     this.hashBoard[w.getRow()][i]=w.getTiles()[i-w.getCol()].hashCode();
         }

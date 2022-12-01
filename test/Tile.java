@@ -4,22 +4,49 @@ package test;
 import java.util.Objects;
 import java.util.Random;
 
+/**
+ * Tile Class
+ * The class contain inner class (bag)
+ * var: static CountTileInArray - how much tile in the bag (zero meaning - no more tiles)
+ * final public char letter - valid letter A-Z
+ *  final public int score - score of the letter
+ *  all the objects in the class is immutable.
+ *  @version 1.12.22 submit version
+ * @author Amit Kaplan 209049972
+ */
 public class Tile {
 
     static int CountTileInArray =98;
-    //todo: generate ctor with valid to letter
     public static class Bag{
         int[] LettersGame;
         public Tile[] arrayTile;
 
-
+        /**
+         * Bag Class - this class is the only class that can generate new Tiles!
+         * LettersGame[] - every index is different char in ABC ([0]=A), the array declare how the words divides fer Char
+         * Tile[] - every index represent the ABC, with score to every letter
+         * to obligate that there is only one Bag - wh will use Singleton
+         */
         private static Bag _intance = null;
+
+        /**
+         * Singleton pattern
+         * @return if there isnt Bag - make new one. otherWise return ref to the existing bag
+         */
         public static Bag getBag(){
             if(_intance==null){
                 _intance=new Bag();
             }
             return _intance;
         }
+
+        /**
+         * LetterGame -declare how mant shows there wiil be to every letter
+         * the letter "A" ([0]) - should be 9 (as we asked to do in the project). But, i declere 10 because in 9 somthing doenst eork to me fine and in than its okey
+         * what didnt words to me okey with 9 in A - if i insert word with "9*A" - the last one doenst classified and stay null, i dont know why
+         *
+         * ArrayTile[] - every index represent the ABC, with score to every letter
+         */
         private Bag(){
             this.LettersGame = new int[26];
             this.LettersGame[0] = 10;
@@ -80,15 +107,26 @@ public class Tile {
             this.arrayTile[25]= new Tile('Z',10);
 
         }
+
+        /**
+         * shallow copy
+         * @param lettersGame
+         * @param arrayTile
+         */
         private Bag(int[] lettersGame, Tile[] arrayTile) {
 
             this.LettersGame = lettersGame;
             this.arrayTile = arrayTile;
         }
 
-        // if the position is empty - return false
-        // if the position is not empty return true - subtract-- prom this position and from CountTileInArray
-        //require - CountTileInArray>0
+        /**
+         * this helps method gets position in the array
+         * @param position - index of array
+         *
+         * @return false if there isn't any available Tile in this position.
+         * true if there is available, we will Subtract from  CountTileInArray and from the positon!
+         * O(1)
+         */
         public boolean checkIfPositionInLetterGameIsEmpty(int position){
             if (LettersGame[position]==0)
                 return false;
@@ -96,6 +134,14 @@ public class Tile {
             this.LettersGame[position]--;
             return true;
         }
+
+        /**
+         * return randon tile from the array
+         * if the amount of tiles in the array is above 20 - he will run until he finds randon and valid tile!
+         * if the amount is under 20 - he run from the random tile and make a circle to check every position if therer is any good tile!
+         * @return randon tile
+         * O(n)
+         */
         public Tile getRand(){
             if (CountTileInArray <=0)
                 return null;
@@ -113,22 +159,6 @@ public class Tile {
                 }
             }
             randPosition = rand.nextInt(26);
-//            boolean checkAllArray = false;
-//            int x=0;
-//            int modulox = (randPosition+0)%26;
-//            do {
-//                if (checkIfPositionInLetterGameIsEmpty(modulox)) {
-//                    checkAllArray =true;
-//                    return this.arrayTile[modulox];
-//                }
-//                x++;
-//                modulox = (randPosition+x)%26;
-//                if (modulox == (randPosition+0))
-//            }while (!checkAllArray);
-//
-//
-
-
             for (int i=randPosition; i<LettersGame.length; i++)
                 if (checkIfPositionInLetterGameIsEmpty(i))
                     return this.arrayTile[i];
@@ -138,6 +168,11 @@ public class Tile {
             return null;
         }
 
+        /**
+         *
+         * @param charTile - check if its "A-Z"
+         * @return true if "A-Z" else false
+         */
         public boolean checkIfLetterValid(char charTile)
         {
             final int ascci = (int)charTile;
@@ -146,6 +181,13 @@ public class Tile {
                 return false;
             return true;
         }
+
+        /**
+         * very similar to getRand()
+         * @param charTile - we will check if its valid char
+         * @return if the char is exist in the bag - then return it
+         * else - return null
+         */
         public Tile getTile(char charTile)
         {
             if (!checkIfLetterValid(charTile))
@@ -156,6 +198,13 @@ public class Tile {
             return null;
 
         }
+
+        /**
+         * given Tile t- insert it into the bag
+         * we only update the amount of tile in the array
+         * if there is over 98 - do nothing
+         * @param t
+         */
         public void put(Tile t) {
             int position = (int)t.letter - 65;
             if (checkIfLetterValid(t.letter) && CountTileInArray<98)
@@ -165,12 +214,21 @@ public class Tile {
             }
 
         }
+
+        /**
+         * copy of letterGame[] - deep copy
+         * @return
+         */
         public int[] getQuantities(){
             int[] CopyLetterGame= new int[this.LettersGame.length];
             System.arraycopy(this.LettersGame, 0, CopyLetterGame,0,this.LettersGame.length);
             return CopyLetterGame;
         }
 
+        /**
+         * if we called this method and the CountTileInArray ==-1 (meaning - we never insert there before) then run over the array and count the tils!
+         * @return int - amount of thile in the bag
+         */
         public int size(){
             if (CountTileInArray ==-1)
             {
@@ -188,11 +246,6 @@ public class Tile {
         this.letter = letter;
         this.score = score;
     }
-//    private Tile(){
-//        this.letter = '0';
-//        this.score =0;
-//
-//    }
 
     public char getLetter() {
         return letter;
@@ -214,6 +267,4 @@ public class Tile {
     public int hashCode() {
         return Objects.hash(letter, score);
     }
-
-
 }

@@ -110,6 +110,8 @@ public class MainTrain {
 		Word AAAAAA=new Word(get("AAAAAA"), 0, 6, true);
 		if(b.tryPlaceWord(AAAAAA)==0)
 			System.out.println("8oKEY");
+		if(b.tryPlaceWord(farm)==0)
+			System.out.println("9");
 
 	}
 

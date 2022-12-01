@@ -91,13 +91,16 @@ public class Board {
 //        if (checkIfTileExist)
 //            return true;
 //        return false;
+        int count=1;
         for(int i=index; i<w.getTiles().length+index;i++){
-            if(w.getTiles()[i-index].hashCode()==this.hashBoard[w.getRow()][i])
-                checkIfTileExist =true;
+            if(w.getTiles()[i-index].hashCode()==this.hashBoard[w.getRow()][i]) {
+                checkIfTileExist = true;
+                count++;
+            }
             else if(this.hashBoard[w.getRow()][i] != 0)
                 return false;
         }
-        if (!checkIfTileExist)
+        if (!checkIfTileExist || w.getTiles().length==count)
             return false;
         return true;
     }
@@ -114,13 +117,18 @@ public class Board {
 //        if (checkIfTileExist)
 //            return true;
 //        return false;
+        int count=0;
         for(int i=index; i<w.getTiles().length+index;i++){
-            if(w.getTiles()[i-index].hashCode()==this.hashBoard[i][w.getCol()])
-                checkIfTileExist =true;
+            if(w.getTiles()[i-index].hashCode()==this.hashBoard[i][w.getCol()]) {
+                count++;
+                checkIfTileExist = true;
+
+            }
             else if(this.hashBoard[i][w.getCol()] != 0)
                 return false;
         }
-        if (!checkIfTileExist)
+
+        if (!checkIfTileExist || w.getTiles().length==count)
             return false;
         return true;
     }

@@ -58,9 +58,9 @@ public class MainTrain {
 		
 		Bag bag = Bag.getBag();
 		Tile[] ts=new Tile[10];
-		for(int i=0;i<ts.length;i++) 
+		for(int i=0;i<ts.length;i++)
 			ts[i]=bag.getRand();
-		
+
 		Word w0=new Word(ts,0,6,true);
 		Word w1=new Word(ts,7,6,false);
 		Word w2=new Word(ts,6,7,true);
@@ -71,30 +71,55 @@ public class MainTrain {
 
 		if(b.boardLegal(w0) || b.boardLegal(w1) || b.boardLegal(w2) || b.boardLegal(w3) || b.boardLegal(w4) || !b.boardLegal(w5) || !b.boardLegal(w6))
 			System.out.println("your boardLegal function is wrong (-10)");
-		
+
 		for(Tile t : ts)
 			bag.put(t);
-		
-		Word horn=new Word(get("HORN"), 7, 5, false);
-		if(b.tryPlaceWord(horn)!=14)
-			System.out.println("problem in placeWord for 1st word (-10)");
-		b.print();
-		Word farm=new Word(get("FA_M"), 5, 7, true);
-		if(b.tryPlaceWord(farm)!=9)
-			System.out.println("problem in placeWord for 2ed word (-10)");
 
-		Word paste=new Word(get("PASTE"), 9, 5, false);
-		if(b.tryPlaceWord(paste)!=25)
-			System.out.println("problem in placeWord for 3ed word (-10)");
+		Word horn = new Word (get("AAA"), 7,7, false);
+		System.out.println(b.tryPlaceWord(horn));
+		Word BB = new Word (get("BBCCD"), 7,10, false);
+		System.out.println(b.tryPlaceWord(BB));
+//		Word EEE2 = new Word (get("EEE"), 0,8, true);
+//		System.out.println(b.tryPlaceWord(EEE2));
 
-		Word mob=new Word(get("_OB"), 8, 7, false);
-		if(b.tryPlaceWord(mob)!=18)
-			System.out.println("problem in placeWord for 4th word (-10)");
-
-		Word bit=new Word(get("BIT"), 10, 4, false);
-		if(b.tryPlaceWord(bit)!=22)
-			System.out.println("problem in placeWord for 5th word (-15)");
-		
+//
+//		Word horn=new Word(get("HORN"), 7, 5, false);
+//		if(b.tryPlaceWord(horn)!=14)
+//			System.out.println("problem in placeWord for 1st word (-10)");
+//		System.out.println("1oKEY");
+//		Word farm=new Word(get("FA_M"), 5, 7, true);
+//		if(b.tryPlaceWord(farm)!=9)
+//			System.out.println("problem in placeWord for 2ed word (-10)");
+//		System.out.println("2oKEY");
+//		Word paste=new Word(get("PASTE"), 9, 5, false);
+//		if(b.tryPlaceWord(paste)!=25)
+//			System.out.println("problem in placeWord for 3ed word (-10)");
+//		System.out.println("3oKEY");
+//		Word mob=new Word(get("_OB"), 8, 7, false);
+//		if(b.tryPlaceWord(mob)!=18)
+//			System.out.println("problem in placeWord for 4th word (-10)");
+//		System.out.println("4 oKEY");
+//		Word bit=new Word(get("BIT"), 10, 4, false);
+//		if(b.tryPlaceWord(bit)!=22)
+//			System.out.println("problem in placeWord for 5th word (-15)");
+//		System.out.println("5oKEY");
+//
+//
+//
+//		Word ATAC=new Word(get("ATAC"), 11, 6, true);
+//		if(b.tryPlaceWord(ATAC)!=9)
+//			System.out.println("problem in placeWord for 6th word (-15)");
+//		System.out.println("6oKEY");
+//
+//		Word AAAA=new Word(get("AAAA"), 0, 1, true);
+//		if(b.tryPlaceWord(AAAA)==0)
+//			System.out.println("7oKEY");
+//
+//		Word AAAAAA=new Word(get("AAAAAA"), 0, 6, true);
+//		if(b.tryPlaceWord(AAAAAA)==0)
+//			System.out.println("8oKEY");
+//		if(b.tryPlaceWord(farm)==0)
+//			System.out.println("9");
 
 	}
 

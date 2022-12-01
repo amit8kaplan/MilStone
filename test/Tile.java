@@ -22,7 +22,7 @@ public class Tile {
         }
         private Bag(){
             this.LettersGame = new int[26];
-            this.LettersGame[0] = 9;
+            this.LettersGame[0] = 10;
             this.LettersGame[1] =2 ;
             this.LettersGame[2] = 2;
             this.LettersGame[3] =4 ;

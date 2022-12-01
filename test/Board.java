@@ -532,9 +532,24 @@ public class Board {
 
     public int getScore(Word w) {
         int sumPiToWord = 0;
+        int sumPi2ToWord = 0;
+        int sumPi3ToWord =0;
         int Pi;
         int sum = 0;
         if (w.isVertical()) {
+//            for (int row = 0; row < w.getTiles().length; row++) {
+//                Pi = this.PiBoard[row+w.getRow()][w.getCol()];
+//                if (Pi == 2 || Pi == 3)
+//                    sum += (w.getTiles()[row].getScore() * Pi);
+//                else
+//                    sum += w.getTiles()[row].getScore();
+//                if ( Pi == 4)
+//                    sumPiToWord += 2;
+//                if (Pi==1 && tileOnBoard==0)
+//                    sumPiToWord+=2;
+//                if (Pi == 5)
+//                    sumPiToWord += 3;
+//            }
             for (int row = 0; row < w.getTiles().length; row++) {
                 Pi = this.PiBoard[row+w.getRow()][w.getCol()];
                 if (Pi == 2 || Pi == 3)
@@ -542,13 +557,12 @@ public class Board {
                 else
                     sum += w.getTiles()[row].getScore();
                 if ( Pi == 4)
-                    sumPiToWord += 2;
+                    sumPi2ToWord++;
                 if (Pi==1 && tileOnBoard==0)
-                    sumPiToWord+=2;
+                    sumPi2ToWord++;
                 if (Pi == 5)
-                    sumPiToWord += 3;
+                    sumPi3ToWord++;
             }
-
         } else {
             for (int col = 0; col < w.getTiles().length; col++) {
                 Pi = this.PiBoard[w.getRow()][col + w.getCol()];
@@ -556,15 +570,30 @@ public class Board {
                     sum += (w.getTiles()[col].getScore() * Pi);
                 else
                     sum += w.getTiles()[col].getScore();
-                if (Pi == 1 || Pi == 4)
-                    sumPiToWord += 2;
+//                if (Pi == 1 || Pi == 4)
+//                    sumPiToWord += 2;
+//                if (Pi == 5)
+//                    sumPiToWord += 3;
+                if ( Pi == 4)
+                    sumPi2ToWord++;
+                if (Pi==1 && tileOnBoard==0)
+                    sumPi2ToWord++;
                 if (Pi == 5)
-                    sumPiToWord += 3;
+                    sumPi3ToWord++;
             }
         }
-            if (sumPiToWord!=0)
-                sum *= sumPiToWord;
-
+//            if (sumPiToWord!=0)
+//                sum *= sumPiToWord;
+        while(sumPi2ToWord>0)
+        {
+            sum*=2;
+            sumPi2ToWord--;
+        }
+        while(sumPi3ToWord>0)
+        {
+            sum*=3;
+            sumPi3ToWord--;
+        }
 
         return sum;
 

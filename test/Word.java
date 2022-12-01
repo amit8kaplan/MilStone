@@ -36,6 +36,7 @@ public class Word {
     }
 
     public Word(Tile[] tiles, int row, int col, boolean vertical) {
+
         this.tiles = tiles;
         this.row = row;
         this.col = col;

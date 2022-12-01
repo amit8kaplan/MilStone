@@ -58,9 +58,9 @@ public class MainTrain {
 		
 		Bag bag = Bag.getBag();
 		Tile[] ts=new Tile[10];
-		for(int i=0;i<ts.length;i++) 
+		for(int i=0;i<ts.length;i++)
 			ts[i]=bag.getRand();
-		
+
 		Word w0=new Word(ts,0,6,true);
 		Word w1=new Word(ts,7,6,false);
 		Word w2=new Word(ts,6,7,true);
@@ -71,10 +71,14 @@ public class MainTrain {
 
 		if(b.boardLegal(w0) || b.boardLegal(w1) || b.boardLegal(w2) || b.boardLegal(w3) || b.boardLegal(w4) || !b.boardLegal(w5) || !b.boardLegal(w6))
 			System.out.println("your boardLegal function is wrong (-10)");
-		
+
 		for(Tile t : ts)
 			bag.put(t);
-		
+
+//		Word horn = new Word (get("AAAAAAAAABBCCDD"), 7,0, false);
+//		System.out.println(b.tryPlaceWord(horn));
+//		Word BB = new Word (get("BBB"), 6,0, false);
+//		System.out.println(b.tryPlaceWord(BB));
 		Word horn=new Word(get("HORN"), 7, 5, false);
 		if(b.tryPlaceWord(horn)!=14)
 			System.out.println("problem in placeWord for 1st word (-10)");
@@ -95,23 +99,23 @@ public class MainTrain {
 		if(b.tryPlaceWord(bit)!=22)
 			System.out.println("problem in placeWord for 5th word (-15)");
 		System.out.println("5oKEY");
-
-
-
-		Word ATAC=new Word(get("ATAC"), 11, 6, true);
-		if(b.tryPlaceWord(ATAC)!=9)
-			System.out.println("problem in placeWord for 6th word (-15)");
-		System.out.println("6oKEY");
-
-		Word AAAA=new Word(get("AAAA"), 0, 1, true);
-		if(b.tryPlaceWord(AAAA)==0)
-			System.out.println("7oKEY");
-
-		Word AAAAAA=new Word(get("AAAAAA"), 0, 6, true);
-		if(b.tryPlaceWord(AAAAAA)==0)
-			System.out.println("8oKEY");
-		if(b.tryPlaceWord(farm)==0)
-			System.out.println("9");
+//
+//
+//
+//		Word ATAC=new Word(get("ATAC"), 11, 6, true);
+//		if(b.tryPlaceWord(ATAC)!=9)
+//			System.out.println("problem in placeWord for 6th word (-15)");
+//		System.out.println("6oKEY");
+//
+//		Word AAAA=new Word(get("AAAA"), 0, 1, true);
+//		if(b.tryPlaceWord(AAAA)==0)
+//			System.out.println("7oKEY");
+//
+//		Word AAAAAA=new Word(get("AAAAAA"), 0, 6, true);
+//		if(b.tryPlaceWord(AAAAAA)==0)
+//			System.out.println("8oKEY");
+//		if(b.tryPlaceWord(farm)==0)
+//			System.out.println("9");
 
 	}
 

@@ -4,6 +4,7 @@ package test;
 import org.omg.CORBA.UNKNOWN;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Board Class
@@ -55,6 +56,16 @@ public class Board {
         this.hashBoard=hashBoard;
 
 
+    }
+
+    @Override
+    public String toString() {
+        return "Board{" +
+                "bag=" + bag +
+                ", boardGame=" + Arrays.toString(boardGame) +
+                ", hashBoard=" + Arrays.toString(hashBoard) +
+                ", PiBoard=" + Arrays.toString(PiBoard) +
+                '}';
     }
 
     public Tile[][] getBoardGame() {

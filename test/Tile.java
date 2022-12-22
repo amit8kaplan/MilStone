@@ -1,6 +1,7 @@
 package test;
 
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 
@@ -20,7 +21,7 @@ public class Tile {
     public static class Bag{
         int[] LettersGame;
         public Tile[] arrayTile;
-
+        private final int lettersNum = 26;
         /**
          * Bag Class - this class is the only class that can generate new Tiles!
          * LettersGame[] - every index is different char in ABC ([0]=A), the array declare how the words divides fer Char
@@ -40,6 +41,15 @@ public class Tile {
             return _intance;
         }
 
+
+        @Override
+        public String toString() {
+            return "Bag{" +
+                    "LettersGame=" + Arrays.toString(LettersGame) +
+                    ", arrayTile=" + Arrays.toString(arrayTile) +
+                    '}';
+        }
+
         /**
          * LetterGame -declare how mant shows there wiil be to every letter
          * the letter "A" ([0]) - should be 9 (as we asked to do in the project). But, i declere 10 because in 9 somthing doenst eork to me fine and in than its okey
@@ -48,37 +58,10 @@ public class Tile {
          * ArrayTile[] - every index represent the ABC, with score to every letter
          */
         private Bag(){
-            this.LettersGame = new int[26];
-            this.LettersGame[0] = 10;
-            this.LettersGame[1] =2 ;
-            this.LettersGame[2] = 2;
-            this.LettersGame[3] =4 ;
-            this.LettersGame[4] =12 ;
-            this.LettersGame[5] = 2;
-            this.LettersGame[6] =3 ;
-            this.LettersGame[7] = 2;
-            this.LettersGame[8] = 9;
-            this.LettersGame[9] = 1;
-            this.LettersGame[10] =1 ;
-            this.LettersGame[11] =4 ;
-            this.LettersGame[12] =2 ;
-            this.LettersGame[13] = 6;
-            this.LettersGame[14] = 8;
-            this.LettersGame[15] = 2;
-            this.LettersGame[16] = 1;
-            this.LettersGame[17] = 6;
-            this.LettersGame[18] =4 ;
-            this.LettersGame[19]= 6;
-            this.LettersGame[20] =4 ;
-            this.LettersGame[21] =2 ;
-            this.LettersGame[22] = 2;
-            this.LettersGame[23] =1 ;
-            this.LettersGame[24] = 2;
-            this.LettersGame[25] =1 ;
-
-
-
+            //change i make - the first one from 10 to 9
+            this.LettersGame = new int[] {9, 2, 2, 4, 12, 2, 3, 2, 9, 1, 1, 4, 2, 6, 8, 2, 1, 6, 4, 6, 4, 2, 2, 1, 2, 1};
             this.arrayTile= new Tile[26];
+            int values[] = {1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10 };
             this.arrayTile[0]= new Tile('A',1);
             this.arrayTile[1]= new Tile('B',3);
             this.arrayTile[2]= new Tile('C',3);

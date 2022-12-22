@@ -9,14 +9,14 @@ import java.util.Objects;
  * The class contain word, the word built to insert into the game
  * array of tiles, the position (row &col) of the first tile in the board game, and if the word is vertical
  *  @version 1.12.22 submit version
- * @author AmitKaplan
+ * @author Amit Kaplan
  */
 public class Word {
 
-    Tile[] tiles;
-	int row;
-    int col;
-    boolean vertical;
+    private Tile[] tiles;
+	private int row;
+    private int col;
+    private boolean vertical;
 
     /**
      *
@@ -29,6 +29,23 @@ public class Word {
         if (o == null || getClass() != o.getClass()) return false;
         Word word = (Word) o;
         return getRow() == word.getRow() && getCol() == word.getCol() && isVertical() == word.isVertical() && Arrays.equals(getTiles(), word.getTiles());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(getRow(), getCol(), isVertical());
+        result = 31 * result + Arrays.hashCode(getTiles());
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Word{" +
+                "tiles=" + Arrays.toString(tiles) +
+                ", row=" + row +
+                ", col=" + col +
+                ", vertical=" + vertical +
+                '}';
     }
 
     /**

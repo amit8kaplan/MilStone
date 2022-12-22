@@ -62,34 +62,9 @@ public class Tile {
             this.LettersGame = new int[] {9, 2, 2, 4, 12, 2, 3, 2, 9, 1, 1, 4, 2, 6, 8, 2, 1, 6, 4, 6, 4, 2, 2, 1, 2, 1};
             this.arrayTile= new Tile[26];
             int values[] = {1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10 };
-            this.arrayTile[0]= new Tile('A',1);
-            this.arrayTile[1]= new Tile('B',3);
-            this.arrayTile[2]= new Tile('C',3);
-            this.arrayTile[3]= new Tile('D',2);
-            this.arrayTile[4]= new Tile('E',1);
-            this.arrayTile[5]= new Tile('F',4);
-            this.arrayTile[6]= new Tile('G',2);
-            this.arrayTile[7]= new Tile('H',4);
-            this.arrayTile[8]= new Tile('I',1);
-            this.arrayTile[9]= new Tile('J',8);
-            this.arrayTile[10]= new Tile('K',5);
-            this.arrayTile[11]= new Tile('L',1);
-            this.arrayTile[12]= new Tile('M',3);
-            this.arrayTile[13]= new Tile('N',1);
-            this.arrayTile[14]= new Tile('O',1);
-            this.arrayTile[15]= new Tile('P',3);
-            this.arrayTile[16]= new Tile('Q',10);
-            this.arrayTile[17]= new Tile('R',1);
-            this.arrayTile[18]= new Tile('S',1);
-            this.arrayTile[19]= new Tile('T',1);
-            this.arrayTile[20]= new Tile('U',1);
-            this.arrayTile[21]= new Tile('V',4);
-            this.arrayTile[22]= new Tile('W',4);
-            this.arrayTile[23]= new Tile('X',8);
-            this.arrayTile[24]= new Tile('Y',4);
-            this.arrayTile[25]= new Tile('Z',10);
-
-        }
+            for(int i = 0; i < lettersNum;i++)
+                this.arrayTile[i] = new Tile((char)('A' + i), values[i]);
+            }
 
         /**
          * shallow copy

@@ -103,23 +103,23 @@ public class MainTrain {
 		if(b.tryPlaceWord(bit)!=22)
 			System.out.println("problem in placeWord for 5th word (-15)");
 		System.out.println("5oKEY");
+
 //
 //
-//
-//		Word ATAC=new Word(get("ATAC"), 11, 6, true);
-//		if(b.tryPlaceWord(ATAC)!=9)
-//			System.out.println("problem in placeWord for 6th word (-15)");
-//		System.out.println("6oKEY");
-//
-//		Word AAAA=new Word(get("AAAA"), 0, 1, true);
-//		if(b.tryPlaceWord(AAAA)==0)
-//			System.out.println("7oKEY");
-//
-//		Word AAAAAA=new Word(get("AAAAAA"), 0, 6, true);
-//		if(b.tryPlaceWord(AAAAAA)==0)
-//			System.out.println("8oKEY");
-//		if(b.tryPlaceWord(farm)==0)
-//			System.out.println("9");
+		Word ATAC=new Word(get("ATAC"), 11, 6, true);
+		if(b.tryPlaceWord(ATAC)!=9)
+			System.out.println("problem in placeWord for 6th word (-15)");
+		System.out.println("6oKEY");
+
+		Word AAAA=new Word(get("AAAA"), 0, 1, true);
+		if(b.tryPlaceWord(AAAA)==0)
+			System.out.println("7oKEY");
+
+		Word AAAAAA=new Word(get("AAAAAA"), 0, 6, true);
+		if(b.tryPlaceWord(AAAAAA)==0)
+			System.out.println("8oKEY");
+		if(b.tryPlaceWord(farm)==0)
+			System.out.println("9");
 
 	}
 
